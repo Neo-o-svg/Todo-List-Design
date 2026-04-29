@@ -1,0 +1,48 @@
+.wrapper {
+	display: flex;
+	flex-direction: column;
+	margin-bottom: 20px;
+	box-shadow: 5px 5px 10px -5px rgba(34, 60, 80, 0.6);
+	padding: 10px;
+
+	&.ml-30 {
+		margin-left: 30px;
+	}
+}
+
+.wrapper__text {
+	color: var(--color-yellow);
+	font-size: 12px;
+	text-transform: uppercase;
+	margin-bottom: 20px;
+
+	&.ml-10 {
+		margin-left: 10px;
+	}
+}
+
+.wrapper__content {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 20px;
+}
+
+.list,
+.emptyMessage {
+	&:empty {
+		display: none;
+	}
+}
+
+.list {
+	--todoListRowGap: 8px;
+
+	display: grid;
+	row-gap: var(--todoListRowGap);
+	width: 100%;
+}
+
+.emptyMessage {
+	text-align: center;
+	color: var(--color-dark-1);
+}

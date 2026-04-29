@@ -1,0 +1,35 @@
+:root {
+	--color-white: #ffffff;
+	--color-black: #000000;
+	--color-red: red;
+
+	/* text */
+	--color-dark-1: #121212;
+	/* button */
+	--color-dark-2: #393433;
+	/* checkbox */
+	--color-light: #9f9f9f;
+
+	/* bg */
+	--color-light-bg: #f3efee;
+
+	/* category-text */
+	--color-yellow: #d1a28b;
+
+	/* active calendar  */
+	--color-active: #e6d9cb;
+
+	--border-radius-btn: 12px;
+	--border-radius-calendar: 8px;
+
+	--box-shadow:
+		0 4px 4px -4px rgba(12, 12, 13, 0.05),
+		0 16px 32px -4px rgba(12, 12, 13, 0.1);
+
+	--input-height: 56px;
+
+	--transition-duration: 0.2s;
+
+	/* Input */
+	--input-height: 40px;
+}

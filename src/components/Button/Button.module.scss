@@ -1,0 +1,11 @@
+.btn {
+	background: var(--color-dark-2);
+	padding: 10px;
+	font-size: 18px;
+	color: var(--color-white);
+	border-radius: var(--border-radius-btn);
+
+	&:hover {
+		opacity: 0.8;
+	}
+}

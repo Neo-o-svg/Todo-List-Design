@@ -1,0 +1,24 @@
+.form {
+	width: 405px;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	margin-top: auto;
+	position: relative;
+}
+
+.searchForm {
+	margin-top: 0 !important;
+	margin-bottom: 30px;
+	display: block;
+}
+
+.ctgError {
+	position: absolute;
+	top: 50px;
+	left: 5px;
+	color: var(--color-red);
+	font-weight: 700;
+	font-size: 15px;
+	margin-bottom: 10px;
+}
