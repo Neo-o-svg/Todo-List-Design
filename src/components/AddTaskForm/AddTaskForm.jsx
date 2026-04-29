@@ -1,3 +1,4 @@
+import { memo } from 'react'
 import Button from '../Button/Button'
 import Field from '../Field/Field'
 
@@ -33,4 +34,4 @@ const AddTaskForm = props => {
 	)
 }
 
-export default AddTaskForm
+export default memo(AddTaskForm)

@@ -2,6 +2,7 @@ import Button from '../Button/Button'
 import Field from '../Field/Field'
 
 import styles from '../AddTaskForm/AddTaskForm.module.scss'
+import { memo } from 'react'
 
 const SearchTaskForm = props => {
 	const { searchQuery, setSearchQuery } = props
@@ -22,4 +23,4 @@ const SearchTaskForm = props => {
 	)
 }
 
-export default SearchTaskForm
+export default memo(SearchTaskForm)

@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react'
+import { useCallback, useEffect, useMemo, useState } from 'react'
 
 import Wrapper from '../Wrapper/Wrapper'
 import AddTaskForm from '../AddTaskForm/AddTaskForm'
@@ -69,11 +69,12 @@ const Todo = props => {
 
 	const [searchQuery, setSearchQuery] = useState('')
 
-	const addTask = () => {
+	const addTask = useCallback(() => {
 		if (newTaskTitle.trim().length > 0) {
 			const task_category = categories.find(c => c.id == selectedCategoryId)
 			if (!task_category) {
 				setCtgError(true)
+				return
 			}
 			const newTask = {
 				id: crypto?.randomUUID() ?? Date.now().toString(),
@@ -82,27 +83,27 @@ const Todo = props => {
 				category: task_category.category_title
 			}
 
-			setTasks([...tasks, newTask])
+			setTasks(prev => [...prev, newTask])
 			setNewTaskTitle('')
 			setSearchQuery('')
 			setCtgError(false)
 		}
-	}
+	}, [newTaskTitle, selectedCategoryId, categories])
 
-	const deleteTask = taskId => {
-		setTasks(tasks.filter(task => task.id !== taskId))
-	}
+	const deleteTask = useCallback(taskId => {
+		setTasks(prev => prev.filter(task => task.id !== taskId))
+	}, [])
 
-	const toggleTaskComplete = (taskId, isDone) => {
-		setTasks(
-			tasks.map(task => {
+	const toggleTaskComplete = useCallback((taskId, isDone) => {
+		setTasks(prev =>
+			prev.map(task => {
 				if (task.id === taskId) {
 					return { ...task, isDone }
 				}
 				return task
 			})
 		)
-	}
+	}, [])
 
 	useEffect(() => {
 		localStorage.setItem('tasks', JSON.stringify(tasks))

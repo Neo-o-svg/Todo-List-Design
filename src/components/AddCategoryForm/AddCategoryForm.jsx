@@ -2,6 +2,7 @@ import Button from '../Button/Button'
 import Field from '../Field/Field'
 
 import styles from '../AddTaskForm/AddTaskForm.module.scss'
+import { memo } from 'react'
 
 const AddCategoryForm = props => {
 	const { addCategory, newCategoryTitle, setNewCategoryTitle } = props
