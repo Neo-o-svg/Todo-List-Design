@@ -55,5 +55,9 @@
 		&:focus {
 			background-image: none;
 		}
+
+		&.inputError {
+			border: none !important;
+		}
 	}
 }

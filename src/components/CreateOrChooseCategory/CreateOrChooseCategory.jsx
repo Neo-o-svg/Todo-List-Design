@@ -1,41 +1,20 @@
-import { useEffect, useState } from 'react'
+import { useContext } from 'react'
 import AddCategoryForm from '../AddCategoryForm/AddCategoryForm'
+
+import { TasksContext } from '../../context/TasksContext'
 
 import styles from './CreateOrChooseCategory.module.scss'
 
-const CreateOrChooseCategory = props => {
+const CreateOrChooseCategory = () => {
 	const {
 		categories,
-		setCategories,
 		selectedCategoryId,
-		setSelectedCategoryId
-	} = props
-
-	const [newCategoryTitle, setNewCategoryTitle] = useState('')
-
-	const deleteCategory = categoryId => {
-		setCategories(
-			categories.filter(category => {
-				return category.id != categoryId
-			})
-		)
-		setSelectedCategoryId('')
-	}
-
-	const addCategory = () => {
-		if (newCategoryTitle.trim().length > 0) {
-			const newCategory = {
-				id: crypto?.randomUUID() ?? Date.now().toString(),
-				category_title: newCategoryTitle
-			}
-			setCategories([...categories, newCategory])
-			setNewCategoryTitle('')
-		}
-	}
-
-	useEffect(() => {
-		localStorage.setItem('categories', JSON.stringify(categories))
-	}, [categories])
+		setSelectedCategoryId,
+		setNewCategoryTitle,
+		addCategory,
+		deleteCategory,
+		newCategoryTitle
+	} = useContext(TasksContext)
 
 	return (
 		<div className={`${styles.chooseCategory}`}>

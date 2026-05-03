@@ -1,11 +1,15 @@
+import { memo, useContext } from 'react'
+
+import { TasksContext } from '../../context/TasksContext'
+
 import Button from '../Button/Button'
 import Field from '../Field/Field'
 
 import styles from '../AddTaskForm/AddTaskForm.module.scss'
-import { memo } from 'react'
 
-const AddCategoryForm = props => {
-	const { addCategory, newCategoryTitle, setNewCategoryTitle } = props
+const AddCategoryForm = () => {
+	const { addCategory, newCategoryTitle, setNewCategoryTitle } =
+		useContext(TasksContext)
 
 	const onSubmit = event => {
 		event.preventDefault()
@@ -31,4 +35,4 @@ const AddCategoryForm = props => {
 	)
 }
 
-export default AddCategoryForm
+export default memo(AddCategoryForm)

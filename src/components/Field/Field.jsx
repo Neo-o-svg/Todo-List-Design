@@ -1,15 +1,11 @@
+import { useContext } from 'react'
 import styles from './Field.module.scss'
+import { TasksContext } from '../../context/TasksContext'
 
 const Field = props => {
-	const {
-		className = '',
-		id,
-		label,
-		type = 'text',
-		value,
-		onInput,
-		ctgError
-	} = props
+	const { className = '', id, label, type = 'text', value, onInput } = props
+
+	const { ctgError } = useContext(TasksContext)
 
 	return (
 		<div className={`${styles.field} ${className}`}>

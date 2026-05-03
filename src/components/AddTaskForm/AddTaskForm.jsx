@@ -1,11 +1,13 @@
-import { memo } from 'react'
+import { memo, useContext } from 'react'
 import Button from '../Button/Button'
 import Field from '../Field/Field'
 
 import styles from './AddTaskForm.module.scss'
+import { TasksContext } from '../../context/TasksContext'
 
-const AddTaskForm = props => {
-	const { addTask, newTaskTitle, setNewTaskTitle, ctgError } = props
+const AddTaskForm = () => {
+	const { addTask, newTaskTitle, setNewTaskTitle, ctgError } =
+		useContext(TasksContext)
 
 	const onSubmit = event => {
 		event.preventDefault()
@@ -24,7 +26,6 @@ const AddTaskForm = props => {
 				id="new-task"
 				value={newTaskTitle}
 				onInput={event => setNewTaskTitle(event.target.value)}
-				ctgError={ctgError}
 			/>
 			<Button
 				type="submit"

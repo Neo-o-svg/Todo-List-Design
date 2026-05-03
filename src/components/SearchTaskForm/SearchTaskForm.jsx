@@ -2,10 +2,11 @@ import Button from '../Button/Button'
 import Field from '../Field/Field'
 
 import styles from '../AddTaskForm/AddTaskForm.module.scss'
-import { memo } from 'react'
+import { memo, useContext } from 'react'
+import { TasksContext } from '../../context/TasksContext'
 
-const SearchTaskForm = props => {
-	const { searchQuery, setSearchQuery } = props
+const SearchTaskForm = () => {
+	const { searchQuery, setSearchQuery } = useContext(TasksContext)
 
 	return (
 		<form
