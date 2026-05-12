@@ -1,11 +1,17 @@
-import { useContext } from 'react'
-import styles from './Field.module.scss'
 import { TasksContext } from '../../context/TasksContext'
 
-const Field = props => {
-	const { className = '', id, label, type = 'text', value, onInput } = props
+import styles from './Field.module.scss'
 
-	const { ctgError } = useContext(TasksContext)
+const Field = props => {
+	const {
+		className = '',
+		id,
+		label,
+		type = 'text',
+		value,
+		error,
+		onInput
+	} = props
 
 	return (
 		<div className={`${styles.field} ${className}`}>
@@ -16,7 +22,7 @@ const Field = props => {
 				{label}
 			</label>
 			<input
-				className={`${styles.input} ${ctgError ? styles.inputError : ''}`}
+				className={`${styles.input} ${error ? styles.inputError : ''}`}
 				id={id}
 				placeholder=" "
 				autoComplete="off"
@@ -24,6 +30,7 @@ const Field = props => {
 				value={value}
 				onInput={onInput}
 			/>
+			{error && <p className="ctgError">Cannot be empty</p>}
 		</div>
 	)
 }

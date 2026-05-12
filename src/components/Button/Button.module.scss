@@ -5,7 +5,19 @@
 	color: var(--color-white);
 	border-radius: var(--border-radius-btn);
 
-	&:hover {
-		opacity: 0.8;
+	&:not(:disabled) {
+		&:hover {
+			color: var(--color-black);
+			background-color: transparent;
+		}
+		&:active {
+			scale: 1.05;
+		}
+	}
+
+	&:disabled {
+		background-color: var(--color-light);
+		border-color: var(--color-dark-2);
+		cursor: not-allowed;
 	}
 }

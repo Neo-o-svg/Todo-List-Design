@@ -1,4 +1,4 @@
-import { memo, useContext } from 'react'
+import { memo, useContext, useState } from 'react'
 
 import { TasksContext } from '../../context/TasksContext'
 
@@ -11,9 +11,23 @@ const AddCategoryForm = () => {
 	const { addCategory, newCategoryTitle, setNewCategoryTitle } =
 		useContext(TasksContext)
 
+	const [error, setError] = useState('')
+
+	const clearNewCategoryTitle = newCategoryTitle.trim()
+	const isNewCategoryTitleEmpty = clearNewCategoryTitle.length === 0
+
 	const onSubmit = event => {
 		event.preventDefault()
-		addCategory()
+		addCategory(clearNewCategoryTitle)
+	}
+
+	const onInput = event => {
+		const { value } = event.target
+		const clearValue = value.trim()
+		const hasOnlySpaces = value.length > 0 && clearValue.length === 0
+
+		setNewCategoryTitle(value)
+		setError(hasOnlySpaces ? 'The category cannot be empty' : '')
 	}
 
 	return (
@@ -25,11 +39,13 @@ const AddCategoryForm = () => {
 				label="New category"
 				id="new-category"
 				value={newCategoryTitle}
-				onInput={event => setNewCategoryTitle(event.target.value)}
+				error={error}
+				onInput={onInput}
 			/>
 			<Button
 				type="submit"
 				text={'Add'}
+				isDisables={isNewCategoryTitleEmpty}
 			/>
 		</form>
 	)

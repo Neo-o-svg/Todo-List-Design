@@ -38,11 +38,12 @@ const useTasks = () => {
 		setSelectedCategoryId('')
 	}
 
-	const addCategory = () => {
-		if (newCategoryTitle.trim().length > 0) {
+	const addCategory = clearNewCategoryTitle => {
+		const isNewCategoryTitleEmpty = clearNewCategoryTitle.length === 0
+		if (!isNewCategoryTitleEmpty) {
 			const newCategory = {
 				id: crypto?.randomUUID() ?? Date.now().toString(),
-				category_title: newCategoryTitle
+				category_title: clearNewCategoryTitle
 			}
 			setCategories([...categories, newCategory])
 			setNewCategoryTitle('')
@@ -107,26 +108,30 @@ const useTasks = () => {
 
 	const [searchQuery, setSearchQuery] = useState('')
 
-	const addTask = useCallback(() => {
-		if (newTaskTitle.trim().length > 0) {
-			const task_category = categories.find(c => c.id == selectedCategoryId)
-			if (!task_category) {
-				setCtgError(true)
-				return
-			}
-			const newTask = {
-				id: crypto?.randomUUID() ?? Date.now().toString(),
-				title: newTaskTitle,
-				isDone: false,
-				category: task_category.category_title
-			}
+	const addTask = useCallback(
+		clearNewTaskTitle => {
+			const isNewTaskTitleEmpty = clearNewTaskTitle.length === 0
+			if (!isNewTaskTitleEmpty) {
+				const task_category = categories.find(c => c.id == selectedCategoryId)
+				if (!task_category) {
+					setCtgError(true)
+					return
+				}
+				const newTask = {
+					id: crypto?.randomUUID() ?? Date.now().toString(),
+					title: clearNewTaskTitle,
+					isDone: false,
+					category: task_category.category_title
+				}
 
-			setTasks(prev => [...prev, newTask])
-			setNewTaskTitle('')
-			setSearchQuery('')
-			setCtgError(false)
-		}
-	}, [newTaskTitle, selectedCategoryId, categories])
+				setTasks(prev => [...prev, newTask])
+				setNewTaskTitle('')
+				setSearchQuery('')
+				setCtgError(false)
+			}
+		},
+		[selectedCategoryId, categories]
+	)
 
 	const deleteTask = useCallback(taskId => {
 		setTasks(prev => prev.filter(task => task.id !== taskId))
@@ -169,6 +174,7 @@ const useTasks = () => {
 		newTaskTitle,
 		setNewTaskTitle,
 		ctgError,
+		setCtgError,
 		searchQuery,
 		setSearchQuery,
 		addTask,

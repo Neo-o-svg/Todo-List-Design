@@ -1,7 +1,7 @@
 import { useContext } from 'react'
-import AddCategoryForm from '../AddCategoryForm/AddCategoryForm'
-
 import { TasksContext } from '../../context/TasksContext'
+
+import AddCategoryForm from '../AddCategoryForm/AddCategoryForm'
 
 import styles from './CreateOrChooseCategory.module.scss'
 
@@ -13,7 +13,8 @@ const CreateOrChooseCategory = () => {
 		setNewCategoryTitle,
 		addCategory,
 		deleteCategory,
-		newCategoryTitle
+		newCategoryTitle,
+		setCtgError
 	} = useContext(TasksContext)
 
 	return (
@@ -32,11 +33,11 @@ const CreateOrChooseCategory = () => {
 					name="category"
 					id="category-select"
 					autoComplete="false"
-					onClick={() => {
-						;(setNewCategoryTitle(name), addCategory())
-					}}
 					defaultValue={selectedCategoryId}
-					onChange={e => setSelectedCategoryId(e.target.value)}
+					onChange={e => {
+						setSelectedCategoryId(e.target.value)
+						setCtgError(false)
+					}}
 				>
 					<option
 						key=""
@@ -58,15 +59,13 @@ const CreateOrChooseCategory = () => {
 			</form>
 
 			{selectedCategoryId && (
-				<>
-					<button
-						className={`${styles.deleteCtgButton}`}
-						onClick={() => deleteCategory(selectedCategoryId)}
-					>
-						Удалить категорию "
-						{categories.find(c => c.id == selectedCategoryId)?.category_title}"
-					</button>
-				</>
+				<button
+					className={`${styles.deleteCtgButton}`}
+					onClick={() => deleteCategory(selectedCategoryId)}
+				>
+					Удалить категорию "
+					{categories.find(c => c.id == selectedCategoryId)?.category_title}"
+				</button>
 			)}
 
 			<AddCategoryForm

@@ -1,4 +1,5 @@
 import { memo } from 'react'
+
 import TodoItem from '../TodoItem/TodoItem'
 
 const TodoList = props => {

@@ -1,11 +1,10 @@
 import { useContext } from 'react'
+import { TasksContext } from '../../context/TasksContext'
 
 import Wrapper from '../Wrapper/Wrapper'
 import AddTaskForm from '../AddTaskForm/AddTaskForm'
 import SearchTaskForm from '../SearchTaskForm/SearchTaskForm'
 import TodoList from '../TodoList/TodoList'
-
-import { TasksContext } from '../../context/TasksContext'
 
 import styles from '../Wrapper/Wrapper.module.scss'
 

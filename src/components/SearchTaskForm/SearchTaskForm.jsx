@@ -1,9 +1,10 @@
+import { memo, useContext } from 'react'
+import { TasksContext } from '../../context/TasksContext'
+
 import Button from '../Button/Button'
 import Field from '../Field/Field'
 
 import styles from '../AddTaskForm/AddTaskForm.module.scss'
-import { memo, useContext } from 'react'
-import { TasksContext } from '../../context/TasksContext'
 
 const SearchTaskForm = () => {
 	const { searchQuery, setSearchQuery } = useContext(TasksContext)

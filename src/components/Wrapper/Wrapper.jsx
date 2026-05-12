@@ -1,5 +1,7 @@
 import { memo } from 'react'
+
 import TodoList from '../TodoList/TodoList'
+
 import styles from './Wrapper.module.scss'
 
 const Wrapper = ({
