@@ -1,96 +1,49 @@
 import { useCallback, useEffect, useMemo, useState } from 'react'
 
-import useCategoriesLocalStorage from './useCategoriesLocalStorage'
-import useTasksLocalStorage from './useTasksLocalStorage'
+import tasksAPI from '../api/tasksAPI'
+import categoriesAPI from '../api/categoryAPI'
 
 const useTasks = () => {
-	const { savedCategories, saveCategories } = useCategoriesLocalStorage()
-	const { savedTasks, saveTasks } = useTasksLocalStorage()
-
 	// Category
-	const [categories, setCategories] = useState(
-		savedCategories ?? [
-			{ id: 1, category_title: 'Exercise' },
-			{ id: 2, category_title: 'Read books' },
-			{ id: 3, category_title: 'Meditate' },
-			{ id: 4, category_title: 'Plan meals' },
-			{ id: 5, category_title: 'Water plants' },
-			{ id: 6, category_title: 'Journal' },
-			{ id: 7, category_title: 'Stretch for 15 mins' },
-			{ id: 8, category_title: 'Review goals before' },
-			{ id: 9, category_title: 'Art' },
-			{ id: 10, category_title: 'Sport' },
-			{ id: 11, category_title: 'Dist' },
-			{ id: 12, category_title: 'Garden' }
-		]
-	)
+	const [categories, setCategories] = useState([])
 
 	const [selectedCategoryId, setSelectedCategoryId] = useState('')
 
 	const [newCategoryTitle, setNewCategoryTitle] = useState('')
 
-	const deleteCategory = categoryId => {
-		setCategories(
-			categories.filter(category => {
-				return category.id != categoryId
-			})
-		)
-		setSelectedCategoryId('')
-	}
+	const addCategory = useCallback(
+		clearNewCategoryTitle => {
+			const isNewCategoryTitleEmpty = clearNewCategoryTitle.length === 0
+			if (!isNewCategoryTitleEmpty) {
+				const newCategory = {
+					category_title: clearNewCategoryTitle
+				}
 
-	const addCategory = clearNewCategoryTitle => {
-		const isNewCategoryTitleEmpty = clearNewCategoryTitle.length === 0
-		if (!isNewCategoryTitleEmpty) {
-			const newCategory = {
-				id: crypto?.randomUUID() ?? Date.now().toString(),
-				category_title: clearNewCategoryTitle
+				categoriesAPI.add(newCategory).then(addedCategory => {
+					setCategories([...categories, addedCategory])
+					setNewCategoryTitle('')
+				})
 			}
-			setCategories([...categories, newCategory])
-			setNewCategoryTitle('')
-		}
-	}
+		},
+		[categories]
+	)
 
-	useEffect(() => {
-		saveCategories(categories)
-	}, [categories, saveCategories])
+	const deleteCategory = useCallback(
+		categoryId => {
+			categoriesAPI.delete(categoryId).then(() => {
+				setCategories(
+					categories.filter(category => {
+						return category.id != categoryId
+					})
+				)
+				setSelectedCategoryId('')
+			})
+		},
+		[categories]
+	)
 
 	// Tasks
-	const [tasks, setTasks] = useState(
-		savedTasks ?? [
-			{
-				id: 'c9bf',
-				title: 'Create icons for a dashboard',
-				isDone: false,
-				category: 'Art'
-			},
-			{
-				id: '37ec',
-				title: 'Prepare a design presentation',
-				isDone: false,
-				category: 'Art'
-			},
-			{
-				id: '44a8',
-				title: 'Stretch for 15 minutes',
-				isDone: false,
-				category: 'Sport'
-			},
-			{ id: 'a0bd', title: 'Plan your meal', isDone: false, category: 'Home' },
-			{
-				id: '79a7',
-				title:
-					'Review daily goals before sleeping. Add some new if time permits',
-				isDone: false,
-				category: 'Dist'
-			},
-			{
-				id: '3601',
-				title: 'Water indoor plants',
-				isDone: false,
-				category: 'Garden'
-			}
-		]
-	)
+	const [tasks, setTasks] = useState([])
 
 	const filteredTasks = useMemo(() => {
 		if (!categories || !tasks) return {}
@@ -118,39 +71,50 @@ const useTasks = () => {
 					return
 				}
 				const newTask = {
-					id: crypto?.randomUUID() ?? Date.now().toString(),
 					title: clearNewTaskTitle,
 					isDone: false,
 					category: task_category.category_title
 				}
 
-				setTasks(prev => [...prev, newTask])
-				setNewTaskTitle('')
-				setSearchQuery('')
-				setCtgError(false)
+				tasksAPI.add(newTask).then(addedTask => {
+					setTasks(prev => [...prev, addedTask])
+					setNewTaskTitle('')
+					setSearchQuery('')
+					setCtgError(false)
+				})
 			}
 		},
 		[selectedCategoryId, categories]
 	)
 
 	const deleteTask = useCallback(taskId => {
-		setTasks(prev => prev.filter(task => task.id !== taskId))
+		tasksAPI.delete(taskId).then(() => {
+			setTasks(prev => prev.filter(task => task.id !== taskId)) //why prev and not (task) => task.id !== taskId
+		})
 	}, [])
 
 	const toggleTaskComplete = useCallback((taskId, isDone) => {
-		setTasks(prev =>
-			prev.map(task => {
-				if (task.id === taskId) {
-					return { ...task, isDone }
-				}
-				return task
-			})
-		)
+		// what is headers
+		tasksAPI.toggleComplete(taskId, isDone).then(() => {
+			setTasks(prev =>
+				prev.map(task => {
+					if (task.id === taskId) {
+						return { ...task, isDone }
+					}
+					return task
+				})
+			)
+		})
 	}, [])
 
 	useEffect(() => {
-		saveTasks(tasks)
-	}, [tasks, saveTasks])
+		fetch('http://localhost:3001/tasks')
+			.then(response => response.json())
+			.then(setTasks)
+		fetch('http://localhost:3001/categories')
+			.then(response => response.json())
+			.then(setCategories)
+	}, [])
 
 	const clearSearchQuery = searchQuery.trim().toLowerCase()
 	const filteredSearchTasks = useMemo(() => {

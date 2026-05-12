@@ -1,0 +1,29 @@
+const URL = 'http://localhost:3001/tasks'
+
+const headers = {
+	'Content-Type': 'application/json'
+}
+
+const tasksAPI = {
+	add: task => {
+		return fetch(URL, {
+			method: 'POST',
+			headers,
+			body: JSON.stringify(task)
+		}).then(response => response.json())
+	},
+	delete: id => {
+		return fetch(`${URL}/${id}`, {
+			method: 'DELETE'
+		})
+	},
+	toggleComplete: (id, isDone) => {
+		return fetch(`${URL}/${id}`, {
+			method: 'PATCH',
+			headers,
+			body: JSON.stringify({ isDone })
+		})
+	}
+}
+
+export default tasksAPI
