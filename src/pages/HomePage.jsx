@@ -1,6 +1,7 @@
+import { TasksProvider } from '../context/TasksContext'
+
 import CreateOrChooseCategory from '../components/CreateOrChooseCategory/CreateOrChooseCategory'
 import Todo from '../components/Todo/Todo'
-import { TasksProvider } from '../context/TasksContext'
 
 const HomeContent = () => {
 	return (

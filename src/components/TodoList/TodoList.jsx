@@ -3,7 +3,7 @@ import { memo } from 'react'
 import TodoItem from '../TodoItem/TodoItem'
 
 const TodoList = props => {
-	const { styles, tasks, deleteTask, toggleTaskComplete } = props
+	const { styles, tasks } = props
 
 	const hasTasks = tasks.length > 0
 
@@ -20,8 +20,6 @@ const TodoList = props => {
 				<TodoItem
 					className={styles.item}
 					key={task.id}
-					deleteTask={deleteTask}
-					toggleTaskComplete={toggleTaskComplete}
 					{...task}
 				/>
 			))}

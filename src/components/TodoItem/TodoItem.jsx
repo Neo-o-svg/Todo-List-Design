@@ -1,16 +1,13 @@
+import { useContext } from 'react'
 import RouterLink from '../RouterLink/RouterLink'
 
 import styles from './TodoItem.module.scss'
+import { TasksContext } from '../../context/TasksContext'
 
 const TodoItem = props => {
-	const {
-		className = '',
-		id,
-		title,
-		isDone,
-		toggleTaskComplete,
-		deleteTask
-	} = props
+	const { className = '', id, title, isDone } = props
+
+	const { deleteTask, toggleTaskComplete } = useContext(TasksContext)
 
 	return (
 		<li className={`${styles.todoItem} ${className}`}>

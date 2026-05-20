@@ -13,6 +13,7 @@ const matchPath = (path, route) => {
 	for (let i = 0; i < routeParts.length; i++) {
 		if (routeParts[i].startsWith(':')) {
 			const paramName = routeParts[i].slice(1)
+
 			params[paramName] = pathParts[i]
 		} else if (routeParts[i] !== pathParts[i]) {
 			return null

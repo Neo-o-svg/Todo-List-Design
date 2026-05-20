@@ -9,34 +9,18 @@ import TodoList from '../TodoList/TodoList'
 import styles from '../Wrapper/Wrapper.module.scss'
 
 const Todo = () => {
-	const {
-		searchQuery,
-		setSearchQuery,
-		filteredSearchTasks,
-		deleteTask,
-		toggleTaskComplete,
-		filteredTasks,
-		addTask,
-		newTaskTitle,
-		setNewTaskTitle,
-		ctgError
-	} = useContext(TasksContext)
+	const { filteredSearchTasks, filteredTasks } = useContext(TasksContext)
 
 	return (
 		<div className="todo">
 			<div className="container">
 				<h1 className="section__title">Today</h1>
-				<SearchTaskForm
-					searchQuery={searchQuery}
-					setSearchQuery={setSearchQuery}
-				/>
+				<SearchTaskForm />
 				<div className="scroll-container">
 					{filteredSearchTasks ? (
 						<TodoList
 							styles={styles}
 							tasks={filteredSearchTasks}
-							deleteTask={deleteTask}
-							toggleTaskComplete={toggleTaskComplete}
 						/>
 					) : (
 						Object.entries(filteredTasks).map(([ctg, tasks]) => (
@@ -44,18 +28,11 @@ const Todo = () => {
 								key={ctg}
 								category_name={ctg}
 								tasks={tasks}
-								deleteTask={deleteTask}
-								toggleTaskComplete={toggleTaskComplete}
 							/>
 						))
 					)}
 				</div>
-				<AddTaskForm
-					addTask={addTask}
-					newTaskTitle={newTaskTitle}
-					setNewTaskTitle={setNewTaskTitle}
-					ctgError={ctgError}
-				/>
+				<AddTaskForm />
 			</div>
 		</div>
 	)
